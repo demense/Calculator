@@ -1,6 +1,5 @@
-// Here are the functions for the basic math operations
 function add(a, b) {
-  return a + b;
+  return Number(a) + Number(b);
 }
 
 function subtract(a, b) {
@@ -19,10 +18,9 @@ function modulus(a, b) {
   return a % b;
 }
 
-// This is the function that operate on the given values
 // a -> the first number
-// b -> the second number
 // ope -> the operator
+// b -> the second number
 function operate([a, ope, b]) {
   if (ope === "+") {
     return add(a, b);
@@ -40,20 +38,27 @@ function operate([a, ope, b]) {
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
+let result = "";
 let displayValue = [];
 let isFirstNumber = true;
+let isSecondNumber = false;
 
-// Here we select the all the button that has the class ".number"
+const display = document.querySelector(".display");
+display.textContent = 0;
+
 const Buttons = document.querySelectorAll(".buttons");
-//
+
 Buttons.forEach((button) => {
-  button.addEventListener("click", (event, value) => {
+  button.addEventListener("click", (event) => {
     if (event.target.classList.contains("number")) {
       numberValue = event.target.value;
       if (isFirstNumber) {
         firstNumber += numberValue;
+        display.textContent = firstNumber;
       } else {
         secondNumber += numberValue;
+        display.textContent = secondNumber;
+        isSecondNumber = true;
       }
     }
 
@@ -63,12 +68,40 @@ Buttons.forEach((button) => {
       isFirstNumber = false;
     }
 
-    displayValue = [firstNumber,operator,secondNumber];
+    // if user pressed negative button insert (-)
+    if (isFirstNumber && event.target.id === "negative") {
+      firstNumber = -firstNumber;
+      display.textContent = firstNumber;
+    } else if (!isFirstNumber && event.target.id === "negative") {
+      secondNumber = -secondNumber;
+      display.textContent = secondNumber;
+    }
+
+    displayValue = [firstNumber, operator, secondNumber];
+
+    if (event.target.id === "clear") {
+      firstNumber = "";
+      secondNumber = "";
+      operator = "";
+      display.textContent = 0;
+    }
+
+    if (isSecondNumber && event.target.classList.contains("function")) {
+      result = operate(displayValue);
+      display.textContent = result;
+      firstNumber = result;
+      secondNumber = "";
+    }
 
     if (event.target.id === "equal") {
-      console.log(operate(displayValue));
+      result = operate(displayValue);
+      if (isFinite(result)) {
+        display.textContent = result;
+      } else if (!isFinite(result) && result !== undefined) {
+        display.textContent = "wtf bro";
+      } else if (result === undefined) {
+        display.textContent = 0;
+      }
     }
   });
 });
-
-console.log();
