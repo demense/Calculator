@@ -12,7 +12,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: monospace;
+    font-family: monospace, sans-serif;
 }
 
 .container {  
@@ -57,6 +57,11 @@ button {
     border: 0;
 }
 
+button:active {
+    background-color: white;
+    color: black;
+}
+
 li {
     display: flex;
 }
@@ -83,3 +88,5 @@ li {
     color: black;
     background-color: var(--secondary);
 }
+
+
