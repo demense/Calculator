@@ -95,11 +95,16 @@ Buttons.forEach((button) => {
 
     if (event.target.id === "equal") {
       result = operate(displayValue);
+
       if (isFinite(result)) {
         display.textContent = result;
-      } else if (!isFinite(result) && result !== undefined) {
-        display.textContent = "wtf bro";
-      } else if (result === undefined) {
+      } else if (!isFinite(result) && result > 0) {
+        alert("Uh-uh, didn't you learn in school not to divide by zero?");
+        firstNumber = "";
+        secondNumber = "";
+        operator = "";
+        display.textContent = 0;
+      } else if (result === "") {
         display.textContent = 0;
       }
     }
